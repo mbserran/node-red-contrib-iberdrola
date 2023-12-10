@@ -1,0 +1,33 @@
+{
+  "name": "node-red-contrib-iberdrola",
+  "version": "1.0.0",
+  "description": "A Node-RED node which connects to i-DE iberdrola api and returns your consumption data",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbserran/node-red-contrib-iberdrola.git"
+  },
+  "keywords": [
+    "node-red",
+    "node-red-contrib-iberdrola",
+    "contrib",
+	"iberdrola",
+    "ping"
+  ],
+  "node-red": {
+	"version": ">=2.2.2",
+    "nodes": {
+      "iberdrola": "iberdrola/iberdrola.js"
+    }
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "author": {
+    "name": "mbserran"
+  },
+  "license": "Apache",
+  "bugs": {
+    "url": "https://github.com/mbserran/node-red-contrib-iberdrola/issues"
+  },
+  "homepage": "https://github.com/mbserran/node-red-contrib-iberdrola"
+}
