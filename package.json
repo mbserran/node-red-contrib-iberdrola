@@ -2,6 +2,16 @@
   "name": "node-red-contrib-iberdrola",
   "version": "1.0.0",
   "description": "A Node-RED node which connects to i-DE iberdrola api and returns your consumption data",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-json": "^0.6.5",
+	"iberdrola-api-v2": "^0.0.3"
+  },
+  "bundledDependencies": [
+    "request",
+	"request-json",
+	"iberdrola-api-v2"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/mbserran/node-red-contrib-iberdrola.git"

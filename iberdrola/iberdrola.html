@@ -18,7 +18,7 @@
         <input type="text" id="node-input-user" placeholder="">
     </div>
 	<div class="form-row">
-        <label for="node-input-password"><i class="fa fa-key"></i> Passwd</label>
+        <label for="node-input-password"><i class="fa fa-key"></i> Password</label>
         <input type="password" id="node-input-password" placeholder="">
     </div>
     <div class="form-row">
@@ -49,6 +49,10 @@
 		  <dt>payload <span class="property-type">object</span></dt>
 		  <dd> The returned value is an obeject with the following format <code>{Dia: day extracted, Import: Consumption array 24h, Export: Generation array 24h, Count: readings left}</code>.</dd>
 		</dl>
+		<dl class="message-properties">
+		  <dt>topic <span class="property-type">number</span></dt>
+		  <dd> The returned value is the contract code whose readings have been retrieved in <code>msg.payload</code>.</dd>
+		</dl>
 
 	  <h3>Details</h3>
 		<p>The node is used to connect to the Iberdrola I-DE with your personal access credentials to read the consumption and generation readings of one full day selected in <code>msg.payload</code>.<br>
@@ -73,7 +77,7 @@
         },
         inputs:1,
         outputs:1,
-        icon: "font-awesome/fa-cloud-upload",
+        icon: "font-awesome/fa-cloud-download",
         label: function() {
             return this.name || this.host || 'iberdrola';
         },

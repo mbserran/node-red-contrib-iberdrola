@@ -19,39 +19,42 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,n);
         this.host = n.host;
         var node = this;
+		
+		// Create client as access point to BASE_URI of Iberdrola API
+		var Iberdrolaapi = require('iberdrola-api-v2');
 
 		this.on("input", function (msg) {
 			
-			// Import iberdrola API
-			const iberdrolaapi = require('./iberdrola_v2.js');
-			
+			// Object used for output
+			var GlobalIDE = {Dia: undefined, Import: undefined, Export: undefined, Count: -2};
+
 			// Process input parameters
 			var user = msg.user || node.user;
 			var passwd = msg.password || node.password;
+			var fecha = new Date(msg.payload);
+			
+			// Delete properties to avoid to show them in the output
+			msg.payload = undefined;
+			delete msg.user;
+			delete msg.password;
 			
 			// Open the interface with the supplied credentials
-			var iberdrola = new iberdrolaapi.login({
+			var iberdrola = new Iberdrolaapi.login({
 				email: user,
 				password: passwd,
 				token: {}
 			});
-
-			// Process the date of data to extract
-			var GlobalIDE = {Dia: undefined, Import: undefined, Export: undefined, Count: -2};
-			var fecha = new Date(msg.payload);
-			msg.payload = undefined;
 
 			iberdrola.ready.then(() => {
 
 				// Get contracts
 				iberdrola.getContracts().then((gcresult) => {
 					msg.payload = {contracts: gcresult};
+					msg.topic = msg.payload.contracts[0].codContrato;
 
 					// Select contract
 					iberdrola.selectContract(msg.payload.contracts[0].codContrato).then(() => {
-
-						// Execute the following methods
-				
+						
 						// Get date limits
 						iberdrola.getDateLimits().then((glresult) => {
 							msg.payload = {limits: glresult};
@@ -62,7 +65,7 @@ module.exports = function(RED) {
 							var dia = fecha;
 							var ano = dia.getFullYear();
 							var mes = dia.getMonth()+1;
-							mess = ("0" + mes).slice(-2);
+							var mess = ("0" + mes).slice(-2);
 							var diar = dia.getDate();
 							var diaa = ("0" + diar).slice(-2);
 							fecha = ano + '-' + mess + '-' + diaa; 
@@ -74,7 +77,6 @@ module.exports = function(RED) {
 								GlobalIDE.Count += 1;
 								msg.payload = GlobalIDE;
 								if ( !GlobalIDE.Count ) {
-			//                      node.warn(msg.payload);
 								  node.send(msg);
 								}
 							}).catch(() => {
@@ -87,7 +89,6 @@ module.exports = function(RED) {
 								GlobalIDE.Count += 1;
 								msg.payload = GlobalIDE;
 								if ( !GlobalIDE.Count ) {
-			//                        node.warn(msg.payload);
 									node.send(msg);
 								}
 							}).catch(() => {
@@ -110,6 +111,6 @@ module.exports = function(RED) {
 			});			
 		});
     }
-	
+		
     RED.nodes.registerType("iberdrola",Iberdrola);
 }

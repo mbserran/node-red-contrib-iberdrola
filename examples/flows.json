@@ -1,0 +1,87 @@
+[
+    {
+        "id": "2938638a77e2c096",
+        "type": "iberdrola",
+        "z": "cce0fbf1b709a5e2",
+        "name": "IBE_Readings",
+        "user": "",
+        "password": "",
+        "x": 1020,
+        "y": 1300,
+        "wires": [
+            [
+                "bff1d3dc5fe0b5eb"
+            ]
+        ]
+    },
+    {
+        "id": "e4425d84d600fe8b",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2023/11/10",
+        "payloadType": "str",
+        "x": 600,
+        "y": 1300,
+        "wires": [
+            [
+                "b2ee4ac62b8a46cd"
+            ]
+        ]
+    },
+    {
+        "id": "b2ee4ac62b8a46cd",
+        "type": "credentials",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Credenciales I-DE",
+        "props": [
+            {
+                "value": "user",
+                "type": "msg"
+            },
+            {
+                "value": "password",
+                "type": "msg"
+            }
+        ],
+        "credentials": {},
+        "x": 810,
+        "y": 1300,
+        "wires": [
+            [
+                "2938638a77e2c096"
+            ]
+        ]
+    },
+    {
+        "id": "bff1d3dc5fe0b5eb",
+        "type": "debug",
+        "z": "cce0fbf1b709a5e2",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 1300,
+        "wires": []
+    }
+]
