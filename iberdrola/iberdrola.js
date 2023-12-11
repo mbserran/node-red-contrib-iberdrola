@@ -32,7 +32,10 @@ module.exports = function(RED) {
 			var user = msg.user || node.user;
 			var passwd = msg.password || node.password;
 			var fecha = new Date(msg.payload);
-			if (isNaN(fecha)) throw new Error('\`msg.payload\` is not a valid date!');
+			if (isNaN(fecha)) {
+				msg.payload = "Error";
+				throw new Error('\`msg.payload\` is not a valid date', {cause:'Invalid_date'});
+			}
 			
 			// Delete properties to avoid to show them in the output
 			msg.payload = undefined;
@@ -61,7 +64,7 @@ module.exports = function(RED) {
 							msg.payload = {limits: glresult};
 
 							if (fecha > msg.payload.limits.max) {
-								throw new Error(msg.payload.limits.max);
+								throw new Error('Max date: ' + msg.payload.limits.max);
 							}
 							var dia = fecha;
 							var ano = dia.getFullYear();
@@ -82,7 +85,6 @@ module.exports = function(RED) {
 								}
 							}).catch((error) => {
 								node.warn('Unable to get readings of day: ' + error);
-								msg.payload = "Error";
 							});
 
 							// Get Exports of Day
@@ -95,29 +97,32 @@ module.exports = function(RED) {
 								}
 							}).catch((error) => {
 								node.warn('Unable to get exports of day: ' + error);
-								msg.payload = "Error";
 							});
 						}).catch((error) => {
-							if (!isNaN(error)) {
-								node.error('Date not available - Max date: ' + error);
-							} else {
-								node.error('Unable to get date limits: ' + error);
-							}
 							msg.payload = "Error";
+							error.message = 'Unable to get date limits - ' + error.message;
+							msg.error = new Error(error);
+							node.error(msg);
 						});
 					}).catch((error) => {
-						node.error('Unable to select contract: ' + error)
 						msg.payload = "Error";
+						error.message = 'Unable to select contract: ' + error;
+						msg.error = new Error(error);
+						node.error(msg);
 					});
 				}).catch((error) => {
-					node.error('Unable to list contracts: ' + error);
 					msg.payload = "Error";
+					error.message = 'Unable to list contracts: ' + error;
+					msg.error = new Error(error);
+					node.error(msg);
 				});
 			}).catch((error) => {
-				if (error === 'no-access') node.error('Unable to login: ' + error);
-				else if (error === 'no-contract') node.error('Unable to select contract: ' + error);
-				else node.error('Unexcepted error: ' + error);
 				msg.payload = "Error";
+				if (error === 'no-access') error = 'Unable to login: ' + error;
+				else if (error === 'no-contract') error = 'Unable to select contract: ' + error;
+				else error = 'Unexcepted error: ' + error;
+				msg.error = new Error(error);
+				node.error(msg);
 			});			
 		});
     }
