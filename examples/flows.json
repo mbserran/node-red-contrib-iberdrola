@@ -1,24 +1,9 @@
 [
     {
-        "id": "2938638a77e2c096",
-        "type": "iberdrola",
-        "z": "cce0fbf1b709a5e2",
-        "name": "IBE_Readings",
-        "user": "",
-        "password": "",
-        "x": 1020,
-        "y": 1300,
-        "wires": [
-            [
-                "bff1d3dc5fe0b5eb"
-            ]
-        ]
-    },
-    {
-        "id": "e4425d84d600fe8b",
+        "id": "c6d0a2334a806655",
         "type": "inject",
         "z": "cce0fbf1b709a5e2",
-        "name": "",
+        "name": "Valid date",
         "props": [
             {
                 "p": "payload"
@@ -35,16 +20,16 @@
         "topic": "",
         "payload": "2023/11/10",
         "payloadType": "str",
-        "x": 600,
-        "y": 1300,
+        "x": 1480,
+        "y": 820,
         "wires": [
             [
-                "b2ee4ac62b8a46cd"
+                "1396ca511f0c14ec"
             ]
         ]
     },
     {
-        "id": "b2ee4ac62b8a46cd",
+        "id": "1396ca511f0c14ec",
         "type": "credentials",
         "z": "cce0fbf1b709a5e2",
         "name": "Credenciales I-DE",
@@ -58,17 +43,16 @@
                 "type": "msg"
             }
         ],
-        "credentials": {},
-        "x": 810,
-        "y": 1300,
+        "x": 1710,
+        "y": 860,
         "wires": [
             [
-                "2938638a77e2c096"
+                "9539ec664b030116"
             ]
         ]
     },
     {
-        "id": "bff1d3dc5fe0b5eb",
+        "id": "7f9c5431bc9d3548",
         "type": "debug",
         "z": "cce0fbf1b709a5e2",
         "name": "",
@@ -76,12 +60,247 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1190,
-        "y": 1300,
+        "x": 2110,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "4fa0b7f6408d8383",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Contrato valid",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "contract",
+                "v": "262275909",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2023/12/01",
+        "payloadType": "str",
+        "x": 1470,
+        "y": 940,
+        "wires": [
+            [
+                "1396ca511f0c14ec"
+            ]
+        ]
+    },
+    {
+        "id": "8c2ef9de2324a817",
+        "type": "credentials",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Credenciales I-DE",
+        "props": [
+            {
+                "value": "user",
+                "type": "msg"
+            },
+            {
+                "value": "password",
+                "type": "msg"
+            }
+        ],
+        "x": 1710,
+        "y": 980,
+        "wires": [
+            [
+                "9539ec664b030116"
+            ]
+        ]
+    },
+    {
+        "id": "ff4e28635e162485",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "No login",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "10/11/2023",
+        "payloadType": "str",
+        "x": 1480,
+        "y": 980,
+        "wires": [
+            [
+                "8c2ef9de2324a817"
+            ]
+        ]
+    },
+    {
+        "id": "5c3e662f47e5d764",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Contratos",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "action",
+                "v": "contratos",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2023/12/10",
+        "payloadType": "str",
+        "x": 1480,
+        "y": 860,
+        "wires": [
+            [
+                "1396ca511f0c14ec"
+            ]
+        ]
+    },
+    {
+        "id": "cabdfcf83c61baa6",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "No date valid",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "hola",
+        "payloadType": "str",
+        "x": 1470,
+        "y": 740,
+        "wires": [
+            [
+                "1396ca511f0c14ec"
+            ]
+        ]
+    },
+    {
+        "id": "802319afee889428",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Date higher",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2024/12/15",
+        "payloadType": "str",
+        "x": 1470,
+        "y": 780,
+        "wires": [
+            [
+                "1396ca511f0c14ec"
+            ]
+        ]
+    },
+    {
+        "id": "555aade7d457405f",
+        "type": "inject",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Contrato invalid",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "contract",
+                "v": "262275910",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2023/12/10",
+        "payloadType": "str",
+        "x": 1460,
+        "y": 900,
+        "wires": [
+            [
+                "1396ca511f0c14ec"
+            ]
+        ]
+    },
+    {
+        "id": "9539ec664b030116",
+        "type": "iberdrola",
+        "z": "cce0fbf1b709a5e2",
+        "name": "",
+        "user": "",
+        "password": "",
+        "x": 1940,
+        "y": 860,
+        "wires": [
+            [
+                "7f9c5431bc9d3548"
+            ]
+        ]
+    },
+    {
+        "id": "aa1f4eb460c8bc52",
+        "type": "comment",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Insert valid credentials",
+        "info": "",
+        "x": 1720,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "b1e0c91494dbef53",
+        "type": "comment",
+        "z": "cce0fbf1b709a5e2",
+        "name": "Empty credentials",
+        "info": "",
+        "x": 1710,
+        "y": 940,
         "wires": []
     }
 ]

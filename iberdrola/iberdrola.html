@@ -28,7 +28,8 @@
 </script>
 
 <script type="text/x-red" data-help-name="iberdrola">
-    <p>Gets the data consumption and production data from Iberdrola I-DE distribution using the credentials provided</p>
+    <p>Gets the data consumption and production data from Iberdrola I-DE distribution using the credentials provided.<br>
+	You must have an account already created in I-DE Iberdrola webpage and valid credentials</p>
 
     <h3>Inputs</h3>
 		<dl class="message-properties">
@@ -41,17 +42,62 @@
 		</dl>
 		<dl class="message-properties">
 		  <dt class="optional">payload <span class="property-type">string (date formatted)</span></dt>
-		  <dd> This property is used to pass the <code>date</code> corresponding to the data to be extracted. </dd>
+		  <dd> This property is used to pass the <code>date</code> corresponding to the data to be extracted.<br>
+		  It must be a valid formatted date passed as an string. Otherwise an `error code 10` will be generated. </dd>
+		</dl>
+		<dl class="message-properties">
+		  <dt class="optional">action <span class="property-type">string</span></dt>
+		  <dd> This property is used to pass the <code>command</code> corresponding to the data to be extracted. Two values:<br>
+				* contratos - Use this parameter value to get the list of contracts<br>
+				* readings (or no property defined) - default behaviour - Get the consumption and generation readings</dd>
+		</dl>
+		<dl class="message-properties">
+		  <dt class="optional">contract <span class="property-type">string</span></dt>
+		  <dd> This property is used to pass the <code>codContrato</code> corresponding to the contract to be used. 
+		  <br>If no parameter is passed it defaults to the first contract available</dd>
 		</dl>
 
 	  <h3>Outputs</h3>
 		<dl class="message-properties">
-		  <dt>payload <span class="property-type">object</span></dt>
-		  <dd> The returned value is an obeject with the following format <code>{Dia: day extracted, Import: Consumption array 24h, Export: Generation array 24h, Count: readings left}</code>.</dd>
+		  <dt>payload  - readings command - <span class="property-type">object</span></dt>
+		  <dd> The returned value is an object with the following `key` properties:<br> 
+		  <code>contract: code of contract selected, 
+		  <br>Dia: day extracted, 
+		  <br>Import: Consumption array 24h, 
+		  <br>Export: Generation array 24h, 
+		  <br>Count: readings left, 
+		  <br>result: object with result information.</code>.</dd>
 		</dl>
 		<dl class="message-properties">
-		  <dt>topic <span class="property-type">number</span></dt>
-		  <dd> The returned value is the contract code whose readings have been retrieved in <code>msg.payload</code>.</dd>
+		  <dt>payload  - contracts command - <span class="property-type">object</span></dt>
+		  <dd> The returned value is an object with the following `key` properties:<br> 
+		  <code>contracts: array with list of contracts and its info.
+		    <br>			Default one is the one with index 0. 
+		  <br>result: object with result information.</code>.</dd>
+		</dl>
+		<dl class="message-properties">
+		  <dt>payload.result <span class="property-type">object</span></dt>
+		  <dd> Indicates the result in the following object 
+		  <br><code>code: result code, 
+		  <br>desc: result description, 
+		  <br>msg: (optional) value of payload when error happened</code>.</dd>
+		  <dd> Result codes:<br>
+				* 0 - Success<br>
+				* 1 - Consumption data not read<br>
+				* 2 - Generation data not read<br>
+				* 3 - Date not available<br>
+				* 4 - Unable to get date limits for current contract<br>
+				* 5 - Unable to select the contract<br>
+				* 6 - Unable to get list of contracts<br>
+				* 7 - Credentials not valid<br>
+				* 8 - No contract available<br>
+				* 9 - Unexpected error<br>
+				* 10 - Date with no valid format<br>
+				* 11 - Contract not found in the list of available ones</dd>
+		</dl>
+		<dl class="message-properties">
+		  <dt>payload.result.msg.limits <span class="property-type">object</span></dt>
+		  <dd> In case of `error code 3` it indicates the max and min available dates for querying results of the selected contract</code>.</dd>
 		</dl>
 
 	  <h3>Details</h3>
