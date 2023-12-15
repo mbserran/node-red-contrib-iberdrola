@@ -19,7 +19,7 @@ Run the following command in the root directory of your Node-RED install
   - *'readings'* - It will provide the readings (consumption and generation) of the corresponding contract selected by the user.
     + (In case you do not define the property `msg.action` the *'readings'* one will be selected by default)
 * You can also select the contract by setting the `msg.contract` to a valid contract code.
-  + (In case you do not define the property `msg.contract` then teh first contract of the list of available ones for the user will be selected)
+  + (In case you do not define the property `msg.contract` then the first contract of the list of available ones for the user will be selected)
   
 ## Ouput
 
